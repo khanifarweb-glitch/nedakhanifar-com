@@ -12,5 +12,7 @@
   },
   // متغیرها و Secretهای ثبت‌شده در داشبورد با هر deploy پاک نشوند
   "keep_vars": true,
+  // ارسال ایمیل فرم تماس (Cloudflare Email Routing). گیرنده ثابت = ایمیل مالک سایت
+  "send_email": [{ "name": "EMAIL", "destination_address": "Khanifarnda@gmail.com" }],
   "observability": { "enabled": true }
 }
