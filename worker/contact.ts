@@ -19,7 +19,7 @@ export interface Env {
 type Ctx = { request: Request; env: Env };
 
 const DEFAULT_FROM = "form@nedakhanifar.com";
-const DEFAULT_TO = "Khanifarnda@gmail.com"; // ایمیل مالک سایت
+const DEFAULT_TO = "khanifarnda@gmail.com"; // ایمیل مالک سایت
 
 const json = (body: Record<string, unknown>, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -215,7 +215,9 @@ async function handle({ request, env }: Ctx): Promise<Response> {
     return json({ ok: true });
   } catch (e) {
     console.error("[contact] email send failed:", e); // در لاگ Cloudflare دیده می‌شود
-    return fail("ارسال انجام نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", 502, "email");
+    // دلیل کوتاه خطا برای عیب‌یابی (پیام Cloudflare؛ اطلاعات محرمانه ندارد)
+    const why = (e instanceof Error ? e.message : String(e)).replace(/\s+/g, " ").slice(0, 120);
+    return fail("ارسال انجام نشد. لطفاً از راه‌های ارتباط مستقیم استفاده کنید.", 502, `email: ${why}`);
   }
 }
 
