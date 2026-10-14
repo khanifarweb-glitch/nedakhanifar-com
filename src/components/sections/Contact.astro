@@ -1,0 +1,47 @@
+---
+/** تماس: راه‌های مستقیم (فقط مقدارهای پرشده) و فرم پیام. */
+import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
+import ContactForm from "./ContactForm.astro";
+import { commonInfo, type Content, type Lang } from "../../utils/i18n";
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const t = c.contact;
+
+const digits = (s: string) => s.replace(/\D/g, "");
+const links = [
+  commonInfo.whatsapp && { icon: "chat", label: t.labels.whatsapp, value: commonInfo.whatsapp, href: `https://wa.me/${digits(commonInfo.whatsapp)}`, ltr: true, ext: true },
+  commonInfo.phone && { icon: "phone", label: t.labels.phone, value: commonInfo.phone, href: `tel:${commonInfo.phone.replace(/[^\d+]/g, "")}`, ltr: true, ext: false },
+  commonInfo.email && { icon: "mail", label: t.labels.email, value: commonInfo.email, href: `mailto:${commonInfo.email}`, ltr: true, ext: false },
+  commonInfo.linkedin && { icon: "linkedin", label: t.labels.linkedin, value: "linkedin.com/in/nedakhanifar", href: commonInfo.linkedin, ltr: true, ext: true },
+].filter(Boolean) as { icon: "chat" | "phone" | "mail" | "linkedin"; label: string; value: string; href: string; ltr: boolean; ext: boolean }[];
+---
+
+<Section id="contact" title={t.title} eyebrow={t.eyebrow} intro={t.intro} tone="dark">
+  <div class="grid">
+    <ul class="links">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} target={l.ext ? "_blank" : undefined} rel={l.ext ? "noopener noreferrer" : undefined}>
+            <span class="ico"><Icon name={l.icon} size={20} /></span>
+            <span class="txt"><small>{l.label}</small><b class:list={{ ltr: l.ltr }}>{l.value}</b></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <ContactForm c={c} lang={lang} />
+  </div>
+</Section>
+
+<style>
+  .grid { display: grid; gap: var(--s-8); align-items: start; }
+  .links { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  a { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3) var(--s-4); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.14); border-radius: var(--radius-md); text-decoration: none; color: var(--on-ink); transition: border-color var(--ease), background var(--ease); }
+  a:hover { border-color: var(--gold-on-ink); background: rgb(255 255 255 / 0.1); }
+  .ico { flex: none; display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--gold-on-ink); color: var(--ink); }
+  .txt { display: grid; min-width: 0; line-height: 1.5; }
+  small { color: var(--on-ink-muted); }
+  b { font-weight: 700; overflow-wrap: anywhere; }
+  @media (min-width: 52rem) { .grid { grid-template-columns: 1fr 1.2fr; gap: var(--s-12); } }
+</style>

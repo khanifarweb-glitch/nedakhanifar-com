@@ -1,0 +1,39 @@
+---
+/** بخش صفحه: عنوان، برچسب کوچک (eyebrow) و زمینه default / surface / dark. */
+interface Props {
+  id?: string;
+  title?: string;
+  intro?: string;
+  eyebrow?: string;
+  tone?: "default" | "surface" | "dark";
+}
+const { id, title, intro, eyebrow, tone = "default" } = Astro.props;
+const headingId = id && title ? `${id}-title` : undefined;
+---
+
+<section id={id} class:list={["section", `section--${tone}`]} aria-labelledby={headingId}>
+  <div class="container">
+    {title && (
+      <header class="section__head reveal">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h2 id={headingId}>{title}</h2>
+        {intro && <p class="intro">{intro}</p>}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section { padding-block: var(--s-16); }
+  .section--surface { background: var(--surface); border-block: 1px solid var(--border); }
+  .section--dark { position: relative; isolation: isolate; overflow: clip; background: var(--ink); color: var(--on-ink); }
+  .section--dark::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(36rem 18rem at 10% 0, rgb(184 145 74 / 0.22), transparent 70%), radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px) 0 0 / 26px 26px; }
+  .section__head { margin-bottom: var(--s-8); max-width: var(--measure); }
+  .eyebrow::before { content: ""; display: inline-block; width: 0.5rem; height: 0.5rem; margin-inline-end: var(--s-2); border-radius: 50%; background: var(--gold); }
+  .eyebrow { margin-bottom: var(--s-2); font-size: var(--fs-sm); font-weight: 700; color: var(--accent); }
+  .section--dark .eyebrow { color: var(--gold-on-ink); }
+  .intro { margin-top: var(--s-3); color: var(--muted); }
+  .section--dark .intro { color: var(--on-ink-muted); }
+  @media (min-width: 48rem) { .section { padding-block: var(--s-24); } .section__head { margin-bottom: var(--s-12); } }
+</style>

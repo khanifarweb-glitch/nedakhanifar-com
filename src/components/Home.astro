@@ -1,0 +1,28 @@
+---
+/** صفحه‌ی اصلی یک زبان؛ هر دو زبان از همین کامپوننت می‌سازند (فقط محتوا فرق دارد). */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "./sections/Hero.astro";
+import About from "./sections/About.astro";
+import Achievements from "./sections/Achievements.astro";
+import Expertise from "./sections/Expertise.astro";
+import Cooperation from "./sections/Cooperation.astro";
+import Products from "./sections/Products.astro";
+import Videos from "./sections/Videos.astro";
+import Contact from "./sections/Contact.astro";
+import { getContent, type Lang } from "../utils/i18n";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = getContent(lang);
+---
+
+<BaseLayout lang={lang}>
+  <Hero c={c} />
+  <About c={c} />
+  <Achievements c={c} />
+  <Expertise c={c} />
+  <Cooperation c={c} />
+  <Products c={c} />
+  <Videos c={c} />
+  <Contact c={c} lang={lang} />
+</BaseLayout>

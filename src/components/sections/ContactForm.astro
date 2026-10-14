@@ -1,0 +1,96 @@
+---
+/** فرم پیام: نام، ایمیل/تلفن و پیام. ارسال با fetch به /api/contact (Worker → Telegram). */
+import Button from "../common/Button.astro";
+import type { Content, Lang } from "../../utils/i18n";
+
+interface Props { c: Content; lang: Lang }
+const { c, lang } = Astro.props;
+const f = c.contact.form;
+const msgs = JSON.stringify({ sending: f.sending, success: f.success, invalid: f.invalid, failed: f.failed, network: f.network });
+---
+
+<form class="form" data-contact-form data-msgs={msgs} data-lang={lang} method="post" action="/api/contact">
+  <div class="field">
+    <label for="name">{f.name}</label>
+    <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" />
+  </div>
+
+  <div class="field">
+    <label for="contact">{f.contact}</label>
+    <input id="contact" name="contact" type="text" inputmode="email" autocomplete="email" dir="ltr" required minlength="5" maxlength="120" />
+  </div>
+
+  <div class="field">
+    <label for="message">{f.message}</label>
+    <textarea id="message" name="message" rows="5" required minlength="5" maxlength="1500"></textarea>
+  </div>
+
+  <!-- Honeypot: برای انسان نامرئی است -->
+  <div class="hp" inert>
+    <label for="website">Website</label>
+    <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <Button type="submit" size="lg">{f.submit}</Button>
+  <p class="status" role="status" aria-live="polite" data-status></p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  if (form) {
+    const m = JSON.parse(form.dataset.msgs ?? "{}") as Record<string, string>;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    let t0 = performance.now(); // زمان پر کردن فرم (ضد ربات)
+
+    const show = (msg: string, isError: boolean) => {
+      status.textContent = msg; // textContent: بدون خطر XSS
+      status.dataset.error = String(isError);
+      status.setAttribute("role", isError ? "alert" : "status");
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = m.sending;
+      show("", false);
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), lang: form.dataset.lang, elapsed: Math.round(performance.now() - t0) }),
+        });
+        const data = await res.json().catch(() => null);
+        if (res.ok && data?.ok) {
+          form.reset();
+          t0 = performance.now();
+          show(m.success, false);
+        } else if (data?.code === "validation") {
+          show(m.invalid, true);
+        } else {
+          show(`${m.failed} (${data?.code ?? `HTTP ${res.status}`})`, true);
+        }
+      } catch {
+        show(m.network, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  }
+</script>
+
+<style>
+  .form { display: grid; gap: var(--s-6); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); color: var(--text); }
+  .field { display: grid; gap: var(--s-2); }
+  label { font-weight: 600; }
+  input, textarea { width: 100%; min-height: 3rem; padding: var(--s-3) var(--s-4); background: var(--surface); border: 1px solid #9ca3af; border-radius: var(--radius-sm); }
+  textarea { resize: vertical; }
+  .hp { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .status { min-height: 1.5em; font-weight: 600; }
+  .status[data-error="false"] { color: #047857; }
+  .status[data-error="true"] { color: #b91c1c; }
+  .form :global(.btn) { justify-self: start; }
+  .form :global(.btn:disabled) { opacity: 0.6; cursor: wait; }
+</style>

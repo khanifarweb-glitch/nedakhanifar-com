@@ -1,0 +1,63 @@
+---
+/** بخش اول: عکس، نام، عنوان و دکمه‌های اصلی. اگر عکس نباشد حرف اول نام نمایش داده می‌شود. */
+import { Image } from "astro:assets";
+import Button from "../common/Button.astro";
+import Icon from "../common/Icon.astro";
+import { ownerPhoto } from "../../utils/photo";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const h = c.hero;
+const initial = h.name.trim().charAt(0);
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container grid">
+    <div class="text">
+      {h.kicker && <p class="kicker">{h.kicker}</p>}
+      <h1 id="hero-title">{h.name}</h1>
+      <p class="role">{h.role}</p>
+      <p class="headline">{h.headline}</p>
+      <div class="actions">
+        <Button href="#contact" variant="light" size="lg">{h.contactLabel}</Button>
+        {h.cvUrl && (
+          <Button href={h.cvUrl} variant="outline-light" size="lg">
+            <Icon name="download" size={20} />
+            {h.cvLabel}
+          </Button>
+        )}
+      </div>
+    </div>
+
+    <div class="portrait" aria-hidden={ownerPhoto ? undefined : "true"}>
+      {ownerPhoto ? (
+        <Image src={ownerPhoto} alt={h.name} width={720} height={900} loading="eager" fetchpriority="high" class="photo" />
+      ) : (
+        <div class="photo photo--fallback">{initial}</div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; isolation: isolate; overflow: clip; background: var(--ink); color: var(--on-ink); padding-block: var(--s-12) var(--s-16); }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(40rem 22rem at 90% 0, rgb(184 145 74 / 0.22), transparent 70%), radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px) 0 0 / 26px 26px; }
+  .grid { display: grid; gap: var(--s-12); align-items: center; }
+  .kicker { display: inline-block; margin-bottom: var(--s-4); padding: var(--s-1) var(--s-4); border: 1px solid rgb(216 182 115 / 0.5); border-radius: 999px; color: var(--gold-on-ink); font-size: var(--fs-sm); font-weight: 600; }
+  h1 { color: #fff; }
+  .role { margin-top: var(--s-3); color: var(--gold-on-ink); font-size: var(--fs-lg); font-weight: 600; }
+  .headline { margin-top: var(--s-6); max-width: 38rem; color: var(--on-ink-muted); font-size: var(--fs-lg); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
+
+  .portrait { position: relative; justify-self: center; width: min(100%, 20rem); }
+  .portrait::before { content: ""; position: absolute; inset: 0; transform: translate(0.9rem, 0.9rem); border: 2px solid var(--gold-on-ink); border-radius: var(--radius-lg); opacity: 0.7; }
+  .photo { position: relative; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-lg); background: #17283f; }
+  .photo--fallback { display: grid; place-items: center; font-size: 7rem; font-weight: 800; color: var(--gold-on-ink); }
+
+  @media (min-width: 52rem) {
+    .hero { padding-block: var(--s-24); }
+    .grid { grid-template-columns: 1.4fr 1fr; gap: var(--s-16); }
+    .portrait { width: min(100%, 24rem); justify-self: end; }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+/** هدر: نام، منوی بخش‌ها (لینک‌های داخل صفحه)، تغییر زبان و منوی موبایل. */
+import { commonInfo, getContent, otherLang, pathFor, type Lang } from "../../utils/i18n";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = getContent(lang);
+const other = otherLang(lang);
+
+// فقط بخش‌هایی که محتوا دارند در منو می‌آیند
+const sections = [
+  { id: "about", show: true },
+  { id: "achievements", show: c.achievements.items.length > 0 },
+  { id: "expertise", show: c.expertise.items.length > 0 },
+  { id: "cooperation", show: c.cooperation.items.length > 0 },
+  { id: "products", show: c.products.items.length > 0 },
+  { id: "videos", show: c.videos.items.length > 0 },
+  { id: "contact", show: true },
+].filter((s) => s.show) as { id: keyof typeof c.ui.nav }[];
+---
+
+<header class="header" data-header>
+  <div class="container bar">
+    <a class="brand" href={pathFor(lang)}>{c.hero.name}</a>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-btn>{c.ui.menu}</button>
+
+    <nav class="nav" id="main-nav" aria-label={c.ui.navLabel} data-nav>
+      <ul>
+        {sections.map((s) => (
+          <li><a href={`#${s.id}`}>{c.ui.nav[s.id]}</a></li>
+        ))}
+      </ul>
+      <a class="lang" href={pathFor(other)} hreflang={other} lang={other} title={c.ui.otherLangName}>{c.ui.otherLangLabel}</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // منوی موبایل؛ بدون JS منو همیشه نمایش داده می‌شود
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const btn = document.querySelector<HTMLButtonElement>("[data-menu-btn]");
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  if (header && btn && nav) {
+    header.dataset.js = "";
+    const set = (open: boolean) => {
+      btn.setAttribute("aria-expanded", String(open));
+      nav.toggleAttribute("data-open", open);
+    };
+    btn.addEventListener("click", () => set(btn.getAttribute("aria-expanded") !== "true"));
+    nav.addEventListener("click", (e) => { if ((e.target as HTMLElement).closest("a")) set(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { set(false); btn.focus(); } });
+  }
+</script>
+
+<style>
+  .header { position: sticky; top: 0; z-index: 50; background: rgb(14 27 44 / 0.96); color: var(--on-ink); border-bottom: 1px solid rgb(255 255 255 / 0.08); backdrop-filter: blur(8px); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); min-height: 4rem; position: relative; }
+  .brand { font-weight: 800; font-size: var(--fs-lg); text-decoration: none; color: #fff; letter-spacing: 0.01em; }
+  .brand::after { content: ""; display: inline-block; width: 0.45rem; height: 0.45rem; margin-inline-start: var(--s-2); border-radius: 50%; background: var(--gold-on-ink); }
+  .menu-btn { display: none; min-height: 2.5rem; padding: 0 var(--s-4); background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / 0.3); border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; }
+  .nav { display: flex; align-items: center; gap: var(--s-6); }
+  .nav ul { display: flex; align-items: center; gap: var(--s-4); list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  .nav a { text-decoration: none; color: var(--on-ink-muted); font-size: var(--fs-sm); font-weight: 600; padding: var(--s-2) 0; transition: color var(--ease); }
+  .nav a:hover { color: #fff; }
+  .nav .lang { color: var(--gold-on-ink); border: 1px solid rgb(216 182 115 / 0.5); border-radius: var(--radius-sm); padding: var(--s-1) var(--s-3); }
+  .nav .lang:hover { color: var(--ink); background: var(--gold-on-ink); }
+
+  @media (max-width: 63.99rem) {
+    .header[data-js] .menu-btn { display: inline-flex; align-items: center; }
+    .header[data-js] .nav { display: none; position: absolute; inset-inline: 0; top: 100%; flex-direction: column; align-items: stretch; gap: var(--s-3); padding: var(--s-4); background: var(--ink); border-bottom: 1px solid rgb(255 255 255 / 0.1); }
+    .header[data-js] .nav[data-open] { display: flex; }
+    .nav ul { flex-direction: column; align-items: stretch; gap: 0; }
+    .nav ul a { display: block; padding: var(--s-3) 0; font-size: var(--fs-base); }
+    .nav .lang { text-align: center; }
+    .header:not([data-js]) .bar { flex-wrap: wrap; padding-block: var(--s-3); }
+  }
+</style>

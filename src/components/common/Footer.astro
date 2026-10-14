@@ -1,0 +1,29 @@
+---
+/** فوتر: نام، لینک لینکدین و حق نشر (سال هنگام build محاسبه می‌شود). */
+import Icon from "./Icon.astro";
+import { commonInfo, getContent, type Lang } from "../../utils/i18n";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = getContent(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container row">
+    <p>© <span class="ltr">{year}</span> {c.hero.name}. {c.ui.rights}</p>
+    {commonInfo.linkedin && (
+      <a href={commonInfo.linkedin} rel="noopener noreferrer" target="_blank" aria-label={c.contact.labels.linkedin}>
+        <Icon name="linkedin" size={20} />
+        <span>{c.contact.labels.linkedin}</span>
+      </a>
+    )}
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: var(--on-ink-muted); padding-block: var(--s-8); border-top: 1px solid rgb(255 255 255 / 0.08); font-size: var(--fs-sm); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); }
+  a { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--on-ink); text-decoration: none; }
+  a:hover { color: var(--gold-on-ink); }
+</style>

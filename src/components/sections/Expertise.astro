@@ -1,0 +1,28 @@
+---
+/** تخصص‌ها: فهرست مرتب با تیک. */
+import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const e = c.expertise;
+---
+
+{e.items.length > 0 && (
+  <Section id="expertise" title={e.title} eyebrow={e.eyebrow}>
+    <ul class="list reveal">
+      {e.items.map((item) => (
+        <li><Icon name="check" size={20} class="tick" /><span>{item}</span></li>
+      ))}
+    </ul>
+  </Section>
+)}
+
+<style>
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+  li { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); font-weight: 600; }
+  li :global(.tick) { flex: none; color: var(--gold); }
+  @media (min-width: 40rem) { .list { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .list { grid-template-columns: repeat(3, 1fr); } }
+</style>

@@ -1,0 +1,80 @@
+---
+/**
+ * Layout پایه: زبان، SEO، hreflang، Open Graph و داده ساختاریافته (Person).
+ * هر صفحه‌ی زبانی (فارسی/عربی) از این استفاده می‌کند.
+ */
+import "@fontsource-variable/vazirmatn"; // فونت self-host (بدون Google Fonts)
+import "../styles/tokens.css";
+import "../styles/base.css";
+import Header from "../components/common/Header.astro";
+import Footer from "../components/common/Footer.astro";
+import { site } from "../data/site";
+import { commonInfo, getContent, htmlLang, otherLang, pathFor, type Lang } from "../utils/i18n";
+
+interface Props { lang: Lang; noindex?: boolean }
+const { lang, noindex = false } = Astro.props;
+
+const c = getContent(lang);
+const abs = (path: string) => new URL(path, site.url).href;
+const canonical = abs(pathFor(lang));
+const hero = c.hero;
+
+// داده ساختاریافته؛ فقط اطلاعات واقعی (فیلد خالی حذف می‌شود)
+const sameAs = [commonInfo.linkedin].filter(Boolean);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: hero.name,
+  jobTitle: hero.role.split("|")[0].trim(),
+  url: canonical,
+  description: c.meta.description,
+  inLanguage: htmlLang[lang],
+  ...(commonInfo.email ? { email: commonInfo.email } : {}),
+  ...(sameAs.length ? { sameAs } : {}),
+};
+---
+
+<!doctype html>
+<html lang={lang} dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0e1b2c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-48.png" sizes="48x48" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <title>{c.meta.title}</title>
+    <meta name="description" content={c.meta.description} />
+    <meta name="author" content={hero.name} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && <link rel="alternate" hreflang="fa" href={abs("/")} />}
+    {!noindex && <link rel="alternate" hreflang="ar" href={abs("/ar/")} />}
+    {!noindex && <link rel="alternate" hreflang="x-default" href={abs("/")} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={lang === "fa" ? "fa_IR" : "ar_AR"} />
+    <meta property="og:locale:alternate" content={lang === "fa" ? "ar_AR" : "fa_IR"} />
+    <meta property="og:title" content={c.meta.title} />
+    <meta property="og:description" content={c.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={abs(site.ogImage)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${hero.name} | ${hero.role}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={c.meta.title} />
+    <meta name="twitter:description" content={c.meta.description} />
+    <meta name="twitter:image" content={abs(site.ogImage)} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{c.ui.skipLink}</a>
+    <Header lang={lang} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+  </body>
+</html>

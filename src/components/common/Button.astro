@@ -1,0 +1,42 @@
+---
+/** دکمه/لینک: با href به <a> و در غیر این صورت <button> تبدیل می‌شود. */
+import Icon from "./Icon.astro";
+
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "light" | "outline-light";
+  size?: "md" | "lg";
+  arrow?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+}
+const { href, variant = "primary", size = "md", arrow = false, type = "button", class: extra = "" } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag class:list={["btn", `btn--${variant}`, `btn--${size}`, extra]} href={href} type={href ? undefined : type}>
+  <slot />
+  {arrow && <Icon name="arrow" size={18} class="btn__icon" />}
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+    min-height: 3rem; padding: 0 var(--s-6);
+    border: 2px solid transparent; border-radius: var(--radius-sm);
+    font-weight: 700; text-decoration: none; cursor: pointer; white-space: nowrap;
+    transition: background-color var(--ease), border-color var(--ease), color var(--ease), box-shadow var(--ease), transform var(--ease);
+  }
+  .btn--lg { min-height: 3.5rem; padding: 0 var(--s-8); font-size: var(--fs-lg); }
+  .btn :global(.btn__icon) { transition: transform var(--ease); }
+  .btn:hover :global(.btn__icon) { transform: translateX(-4px); }
+
+  .btn--primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 28%, transparent); }
+  .btn--primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn--secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+  .btn--secondary:hover { border-color: var(--text); }
+  .btn--light { background: #fff; color: var(--ink); }
+  .btn--light:hover { background: var(--accent-soft); transform: translateY(-1px); }
+  .btn--outline-light { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.4); }
+  .btn--outline-light:hover { border-color: #fff; }
+</style>

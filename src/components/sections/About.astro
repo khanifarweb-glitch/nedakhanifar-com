@@ -1,0 +1,20 @@
+---
+/** درباره من: پاراگراف‌های رزومه (از JSON)، با عرض مناسب خواندن. */
+import Section from "../common/Section.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const a = c.about;
+---
+
+<Section id="about" title={a.title} eyebrow={a.eyebrow}>
+  <div class="prose reveal">
+    {a.paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</Section>
+
+<style>
+  .prose { display: grid; gap: var(--s-4); max-width: var(--measure); }
+  .prose p { color: var(--text); }
+</style>

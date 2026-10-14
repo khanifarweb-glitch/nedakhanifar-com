@@ -1,0 +1,32 @@
+---
+/** زمینه‌های همکاری: مقدمه‌ی کوتاه و کارت‌های ساده. */
+import Section from "../common/Section.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const k = c.cooperation;
+---
+
+{k.items.length > 0 && (
+  <Section id="cooperation" title={k.title} eyebrow={k.eyebrow} intro={k.intro} tone="surface">
+    <ol class="grid">
+      {k.items.map((item, i) => (
+        <li class="card reveal">
+          <span class="num" aria-hidden="true">{i + 1}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ol>
+  </Section>
+)}
+
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); }
+  .card { display: grid; gap: var(--s-2); padding: var(--s-6); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .num { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; margin-bottom: var(--s-2); border-radius: 50%; background: var(--ink); color: var(--gold-on-ink); font-weight: 800; font-size: var(--fs-sm); }
+  p { color: var(--muted); }
+  @media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .grid { grid-template-columns: repeat(4, 1fr); } }
+</style>

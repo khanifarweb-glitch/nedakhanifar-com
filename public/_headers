@@ -1,0 +1,23 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com https://www.aparat.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=604800
+
+/*.svg
+  Cache-Control: public, max-age=604800
+
+/api/*
+  Cache-Control: no-store
+
+/admin/*
+  ! Content-Security-Policy
+  Cache-Control: no-store

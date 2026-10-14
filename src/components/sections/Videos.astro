@@ -1,0 +1,78 @@
+---
+/**
+ * ویدیوها: پیش‌نمایش سبک؛ تا کلیک نشود چیزی از یوتیوب/آپارات بارگذاری نمی‌شود.
+ * هر آیتم یکی از این‌ها را دارد: youtubeId، aparatHash یا file (فایل کوتاه روی خود سایت).
+ */
+import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const v = c.videos;
+
+// شناسه‌ها فقط با الگوی امن پذیرفته می‌شوند (جلوگیری از تزریق در آدرس)
+const safeId = (s?: string) => (s && /^[A-Za-z0-9_-]{4,40}$/.test(s) ? s : "");
+const items = v.items
+  .map((it) => {
+    const yt = safeId(it.youtubeId);
+    const ap = safeId(it.aparatHash);
+    const file = it.file && it.file.startsWith("/") ? it.file : "";
+    const src = yt
+      ? `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`
+      : ap
+        ? `https://www.aparat.com/video/video/embed/videohash/${ap}/vt/frame`
+        : "";
+    return { title: it.title, src, file };
+  })
+  .filter((it) => it.src || it.file);
+---
+
+{items.length > 0 && (
+  <Section id="videos" title={v.title} eyebrow={v.eyebrow || undefined} tone="dark">
+    <ul class="grid">
+      {items.map((it) => (
+        <li class="item reveal">
+          {it.file ? (
+            <video class="media" controls preload="none" playsinline src={it.file} aria-label={it.title}></video>
+          ) : (
+            <button class="media poster" type="button" data-embed={it.src} data-title={it.title} aria-label={`${v.playLabel}: ${it.title}`}>
+              <span class="play"><Icon name="play" size={28} /></span>
+            </button>
+          )}
+          <h3>{it.title}</h3>
+        </li>
+      ))}
+    </ul>
+  </Section>
+)}
+
+<script>
+  // با کلیک، iframe ساخته می‌شود (بارگذاری تنبل)
+  document.querySelectorAll<HTMLButtonElement>("[data-embed]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = btn.dataset.embed!;
+      iframe.title = btn.dataset.title ?? "";
+      iframe.className = "media";
+      iframe.allow = "autoplay; fullscreen; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.style.border = "0";
+      btn.replaceWith(iframe);
+      iframe.focus();
+    });
+  });
+</script>
+
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-8); }
+  .item { display: grid; gap: var(--s-3); }
+  .item h3 { color: #fff; }
+  .media { width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius-md); background: #0a1422; }
+  .poster { position: relative; display: grid; place-items: center; padding: 0; cursor: pointer; border: 1px solid rgb(255 255 255 / 0.15); background: linear-gradient(135deg, #17283f, #0a1422); }
+  .play { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--gold-on-ink); color: var(--ink); transition: transform var(--ease); }
+  .poster:hover .play { transform: scale(1.08); }
+  @media (min-width: 52rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

@@ -1,0 +1,38 @@
+---
+/** دستاوردها: کارت‌هایی با آیکون؛ لینک مدرک (مثلاً گزارش ایرنا) اختیاری است. */
+import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const a = c.achievements;
+const icons = ["mic", "award", "users", "briefcase", "globe", "box"];
+---
+
+{a.items.length > 0 && (
+  <Section id="achievements" title={a.title} eyebrow={a.eyebrow} tone="surface">
+    <ul class="grid">
+      {a.items.map((item) => (
+        <li class="card reveal">
+          <span class="ico"><Icon name={(icons.includes(item.icon) ? item.icon : "award") as "award"} size={24} /></span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          {item.link && (
+            <a class="link" href={item.link} target="_blank" rel="noopener noreferrer">{item.linkLabel || item.link}</a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </Section>
+)}
+
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); }
+  .card { display: grid; align-content: start; gap: var(--s-3); padding: var(--s-6); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); border-top: 3px solid var(--gold); }
+  .ico { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
+  p { color: var(--muted); }
+  .link { justify-self: start; color: var(--accent); font-weight: 700; text-underline-offset: 4px; }
+  .link:hover { color: var(--gold); }
+  @media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

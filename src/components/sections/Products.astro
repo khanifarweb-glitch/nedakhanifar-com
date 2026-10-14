@@ -1,0 +1,33 @@
+---
+/** محصولات: فقط اگر در JSON آیتمی وارد شده باشد نمایش داده می‌شود. */
+import Section from "../common/Section.astro";
+import Icon from "../common/Icon.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const p = c.products;
+---
+
+{p.items.length > 0 && (
+  <Section id="products" title={p.title} eyebrow={p.eyebrow} intro={p.intro || undefined}>
+    <ul class="grid">
+      {p.items.map((item) => (
+        <li class="card reveal">
+          <span class="ico"><Icon name="box" size={24} /></span>
+          <h3>{item.title}</h3>
+          {item.text && <p>{item.text}</p>}
+        </li>
+      ))}
+    </ul>
+  </Section>
+)}
+
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-6); }
+  .card { display: grid; align-content: start; gap: var(--s-3); padding: var(--s-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .ico { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--gold-soft); color: var(--gold); }
+  p { color: var(--muted); }
+  @media (min-width: 40rem) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>
