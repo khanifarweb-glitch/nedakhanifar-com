@@ -19,18 +19,46 @@ const abs = (path: string) => new URL(path, site.url).href;
 const canonical = abs(pathFor(lang));
 const hero = c.hero;
 
-// داده ساختاریافته؛ فقط اطلاعات واقعی (فیلد خالی حذف می‌شود)
+// داده ساختاریافته؛ فقط اطلاعات واقعی از فایل‌های محتوا (فیلد خالی حذف می‌شود)
 const sameAs = [commonInfo.linkedin].filter(Boolean);
+const knowsAbout = c.expertise.items.filter(Boolean);
+const otherName = getContent(otherLang(lang)).hero.name; // نام به زبان دیگر (املای فارسی/عربی)
+const websiteId = abs("/#website");
+const personId = abs("/#person");
 const schema = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: hero.name,
-  jobTitle: hero.role.split("|")[0].trim(),
-  url: canonical,
-  description: c.meta.description,
-  inLanguage: htmlLang[lang],
-  ...(commonInfo.email ? { email: commonInfo.email } : {}),
-  ...(sameAs.length ? { sameAs } : {}),
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: abs("/"),
+      name: hero.name,
+      inLanguage: htmlLang[lang],
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#profile`,
+      url: canonical,
+      name: c.meta.title,
+      description: c.meta.description,
+      inLanguage: htmlLang[lang],
+      isPartOf: { "@id": websiteId },
+      mainEntity: { "@id": personId },
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: hero.name,
+      ...(otherName && otherName !== hero.name ? { alternateName: otherName } : {}),
+      jobTitle: hero.role.split("|")[0].trim(),
+      url: abs("/"),
+      description: c.meta.description,
+      ...(commonInfo.email ? { email: commonInfo.email } : {}),
+      ...(knowsAbout.length ? { knowsAbout } : {}),
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+  ],
 };
 ---
 
