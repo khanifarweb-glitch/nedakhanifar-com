@@ -1,9 +1,10 @@
 /** انتخاب زبان و خواندن محتوا. برای افزودن زبان جدید: یک JSON در src/data/content و یک صفحه در src/pages. */
 import fa from "../data/content/fa.json";
 import ar from "../data/content/ar.json";
+import en from "../data/content/en.json";
 import common from "../data/content/common.json";
 
-export type Lang = "fa" | "ar";
+export type Lang = "fa" | "ar" | "en";
 
 export interface Content {
   meta: { title: string; description: string };
@@ -49,11 +50,22 @@ function normalize(raw: unknown): Content {
   c.videos.items ??= [];
   return c;
 }
-const contents: Record<Lang, Content> = { fa: normalize(fa), ar: normalize(ar) };
+const contents: Record<Lang, Content> = { fa: normalize(fa), ar: normalize(ar), en: normalize(en) };
 export const getContent = (lang: Lang): Content => contents[lang];
 export const commonInfo: Common = { email: "", linkedin: "", phone: "", whatsapp: "", ...(common as Partial<Common>) };
 
-/** آدرس صفحه هر زبان (فارسی در ریشه، عربی زیر /ar/) */
-export const pathFor = (lang: Lang) => (lang === "fa" ? "/" : "/ar/");
-export const otherLang = (lang: Lang): Lang => (lang === "fa" ? "ar" : "fa");
-export const htmlLang: Record<Lang, string> = { fa: "fa-IR", ar: "ar" };
+/** زبان‌های سایت (ترتیب = ترتیب نمایش در سوئیچ زبان) */
+export const langs: Lang[] = ["fa", "ar", "en"];
+
+/** مشخصات هر زبان: نام بومی (برای سوئیچ)، جهت متن، locale و og:locale */
+export const langMeta: Record<Lang, { label: string; name: string; dir: "rtl" | "ltr"; locale: string; og: string }> = {
+  fa: { label: "فارسی", name: "نسخه فارسی", dir: "rtl", locale: "fa-IR", og: "fa_IR" },
+  ar: { label: "العربية", name: "النسخة العربية", dir: "rtl", locale: "ar", og: "ar_AR" },
+  en: { label: "English", name: "English version", dir: "ltr", locale: "en", og: "en_US" },
+};
+
+/** آدرس صفحه هر زبان (فارسی در ریشه، بقیه زیر /ar/ و /en/) */
+export const pathFor = (lang: Lang) => (lang === "fa" ? "/" : `/${lang}/`);
+/** بقیه‌ی زبان‌ها (برای سوئیچ زبان) */
+export const otherLangs = (lang: Lang): Lang[] => langs.filter((l) => l !== lang);
+export const htmlLang: Record<Lang, string> = { fa: "fa-IR", ar: "ar", en: "en" };

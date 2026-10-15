@@ -377,8 +377,190 @@ collections:
                   - { name: products, label: "محصولات", widget: string }
                   - { name: videos, label: "ویدیوها", widget: string }
                   - { name: contact, label: "تماس", widget: string }
+      - name: en
+        label: نسخه انگلیسی (English)
+        file: src/data/content/en.json
+        format: json
+        fields:
+          - name: meta
+            label: "عنوان و توضیح گوگل (سئو)"
+            widget: object
+            fields:
+              - { name: title, label: "عنوان صفحه", widget: string }
+              - { name: description, label: "توضیح صفحه (۱۲۰ تا ۱۶۰ کاراکتر)", widget: text }
+          - name: hero
+            label: "بخش اول (نام و عنوان)"
+            widget: object
+            fields:
+              - { name: kicker, label: "برچسب بالای نام", widget: string, required: false }
+              - { name: name, label: "نام کامل", widget: string }
+              - { name: role, label: "عنوان شغلی", widget: string }
+              - { name: headline, label: "جمله‌ی معرفی", widget: text }
+              - { name: contactLabel, label: "متن دکمه تماس", widget: string }
+              - { name: cvLabel, label: "متن دکمه رزومه", widget: string }
+              - { name: cvUrl, label: "آدرس فایل رزومه PDF (مثال: /cv/neda-fa.pdf؛ خالی = دکمه نمایش داده نشود)", widget: string, required: false }
+          - name: about
+            label: "درباره من"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - name: paragraphs
+                label: "پاراگراف‌ها"
+                widget: list
+                field: { name: text, label: "پاراگراف", widget: text }
+          - name: achievements
+            label: "دستاوردها"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - name: items
+                label: "دستاوردها"
+                widget: list
+                required: false
+                fields:
+                  - { name: icon, label: "آیکون", widget: select, default: award, options: [mic, award, users, briefcase, globe, box] }
+                  - { name: title, label: "عنوان", widget: string }
+                  - { name: text, label: "توضیح", widget: text }
+                  - { name: link, label: "لینک مدرک (اختیاری)", widget: string, required: false }
+                  - { name: linkLabel, label: "متن لینک", widget: string, required: false }
+          - name: gallery
+            label: "گالری عکس سمینارها و فعالیت‌ها (خالی = بخش نمایش داده نمی‌شود)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: openLabel, label: "متن دکمه بزرگ‌نمایی", widget: string }
+              - { name: closeLabel, label: "متن دکمه بستن", widget: string }
+              - { name: prevLabel, label: "متن دکمه قبلی", widget: string }
+              - { name: nextLabel, label: "متن دکمه بعدی", widget: string }
+              - name: items
+                label: "عکس‌ها"
+                widget: list
+                required: false
+                fields:
+                  - { name: image, label: "عکس (webp یا jpg، زیر ۳۰۰ کیلوبایت)", widget: image }
+                  - { name: caption, label: "توضیح کوتاه زیر عکس", widget: string, required: false }
+          - name: expertise
+            label: "تخصص‌ها"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - name: items
+                label: "تخصص‌ها"
+                widget: list
+                required: false
+                field: { name: item, label: "تخصص", widget: string }
+          - name: cooperation
+            label: "زمینه‌های همکاری"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: intro, label: "مقدمه", widget: text, required: false }
+              - name: items
+                label: "موارد"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "عنوان", widget: string }
+                  - { name: text, label: "توضیح", widget: text }
+          - name: products
+            label: "محصولات (خالی = بخش نمایش داده نمی‌شود)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: intro, label: "مقدمه", widget: text, required: false }
+              - name: items
+                label: "محصولات"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "نام محصول", widget: string }
+                  - { name: text, label: "توضیح", widget: text, required: false }
+          - name: videos
+            label: "ویدیوها (خالی = بخش نمایش داده نمی‌شود)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: playLabel, label: "متن دکمه پخش", widget: string }
+              - name: items
+                label: "ویدیوها"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "عنوان ویدیو", widget: string }
+                  - { name: youtubeId, label: "شناسه یوتیوب (مثال: dQw4w9WgXcQ)", widget: string, required: false }
+                  - { name: aparatHash, label: "شناسه آپارات (کد بعد از /v/ در لینک ویدیو)", widget: string, required: false }
+                  - { name: file, label: "فایل کوتاه روی خود سایت (مثال: /videos/a.mp4)", widget: string, required: false }
+          - name: contact
+            label: "بخش تماس"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: intro, label: "مقدمه", widget: text }
+              - name: labels
+                label: "برچسب راه‌های ارتباط"
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: phone, label: "تلفن", widget: string }
+                  - { name: whatsapp, label: "واتساپ", widget: string }
+                  - { name: email, label: "ایمیل", widget: string }
+                  - { name: linkedin, label: "لینکدین", widget: string }
+              - name: form
+                label: "متن‌های فرم"
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: name, label: "نام", widget: string }
+                  - { name: contact, label: "ایمیل یا تماس", widget: string }
+                  - { name: message, label: "پیام", widget: string }
+                  - { name: submit, label: "دکمه ارسال", widget: string }
+                  - { name: sending, label: "در حال ارسال", widget: string }
+                  - { name: success, label: "پیام موفقیت", widget: string }
+                  - { name: invalid, label: "پیام ورودی نامعتبر", widget: string }
+                  - { name: failed, label: "پیام خطا", widget: string }
+                  - { name: network, label: "پیام خطای اتصال", widget: string }
+          - name: ui
+            label: "متن‌های ثابت سایت (منو و فوتر)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: skipLink, label: "لینک پرش به محتوا", widget: string }
+              - { name: menu, label: "دکمه منو", widget: string }
+              - { name: navLabel, label: "برچسب منو", widget: string }
+              - { name: otherLangLabel, label: "دکمه تغییر زبان", widget: string }
+              - { name: otherLangName, label: "توضیح تغییر زبان", widget: string }
+              - { name: rights, label: "متن حق نشر", widget: string }
+              - name: nav
+                label: "عنوان بخش‌ها در منو"
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: about, label: "درباره من", widget: string }
+                  - { name: achievements, label: "دستاوردها", widget: string }
+                  - { name: gallery, label: "گالری", widget: string }
+                  - { name: expertise, label: "تخصص‌ها", widget: string }
+                  - { name: cooperation, label: "زمینه‌های همکاری", widget: string }
+                  - { name: products, label: "محصولات", widget: string }
+                  - { name: videos, label: "ویدیوها", widget: string }
+                  - { name: contact, label: "تماس", widget: string }
       - name: common
-        label: اطلاعات تماس (مشترک بین دو زبان)
+        label: اطلاعات تماس (مشترک بین همه زبان‌ها)
         file: src/data/content/common.json
         format: json
         fields:
