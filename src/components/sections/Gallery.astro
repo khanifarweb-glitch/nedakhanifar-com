@@ -1,0 +1,102 @@
+---
+/**
+ * گالری عکس سمینارها و فعالیت‌ها؛ فقط اگر در JSON عکسی وارد شده باشد نمایش داده می‌شود.
+ * با کلیک، عکس در یک پنجره‌ی بزرگ (dialog) باز می‌شود؛ کلیدهای ← → و Esc هم کار می‌کنند.
+ */
+import Section from "../common/Section.astro";
+import type { Content } from "../../utils/i18n";
+
+interface Props { c: Content }
+const { c } = Astro.props;
+const g = c.gallery;
+
+// فقط مسیرهای داخلی سایت پذیرفته می‌شوند (مثلاً /images/seminar.webp)
+const items = g.items.filter((it) => typeof it.image === "string" && /^\/[^\s"'<>]+$/.test(it.image));
+const dataJson = JSON.stringify(items.map((it) => ({ src: it.image, cap: it.caption ?? "" }))).replace(/</g, "\\u003c"); // امن در برابر </script>
+---
+
+{items.length > 0 && (
+  <Section id="gallery" title={g.title} eyebrow={g.eyebrow || undefined} tone="surface">
+    <ul class="grid">
+      {items.map((it, i) => (
+        <li class="reveal">
+          <button
+            class="thumb"
+            type="button"
+            data-index={i}
+            aria-label={`${g.openLabel}${it.caption ? `: ${it.caption}` : ""}`}
+          >
+            <img src={it.image} alt={it.caption ?? ""} loading="lazy" decoding="async" />
+            {it.caption && <span class="cap">{it.caption}</span>}
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    <dialog class="lb" data-lightbox aria-label={g.title}>
+      <figure>
+        <img data-lb-img alt="" />
+        <figcaption data-lb-cap></figcaption>
+      </figure>
+      <div class="ctrl">
+        <button type="button" data-lb-prev>{g.prevLabel}</button>
+        <button type="button" data-lb-close>{g.closeLabel}</button>
+        <button type="button" data-lb-next>{g.nextLabel}</button>
+      </div>
+    </dialog>
+    <script is:inline type="application/json" id="gallery-data" set:html={dataJson} />
+  </Section>
+)}
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>("[data-lightbox]");
+  const dataEl = document.getElementById("gallery-data");
+  if (dlg && dataEl) {
+    const list: { src: string; cap: string }[] = JSON.parse(dataEl.textContent || "[]");
+    const img = dlg.querySelector<HTMLImageElement>("[data-lb-img]")!;
+    const cap = dlg.querySelector<HTMLElement>("[data-lb-cap]")!;
+    let cur = 0;
+
+    const show = (i: number) => {
+      cur = (i + list.length) % list.length;
+      img.src = list[cur].src;
+      img.alt = list[cur].cap;
+      cap.textContent = list[cur].cap;
+    };
+    const open = (i: number) => { show(i); dlg.showModal(); };
+
+    document.querySelectorAll<HTMLButtonElement>(".thumb[data-index]").forEach((b) =>
+      b.addEventListener("click", () => open(Number(b.dataset.index))),
+    );
+    dlg.querySelector("[data-lb-prev]")!.addEventListener("click", () => show(cur - 1));
+    dlg.querySelector("[data-lb-next]")!.addEventListener("click", () => show(cur + 1));
+    dlg.querySelector("[data-lb-close]")!.addEventListener("click", () => dlg.close());
+    // کلیک روی پس‌زمینه‌ی تیره پنجره را می‌بندد
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    // جهت فلش‌ها در راست‌به‌چپ برعکس است: فلش چپ = بعدی
+    dlg.addEventListener("keydown", (e) => {
+      const rtl = getComputedStyle(dlg).direction === "rtl";
+      if (e.key === "ArrowLeft") show(cur + (rtl ? 1 : -1));
+      if (e.key === "ArrowRight") show(cur + (rtl ? -1 : 1));
+    });
+  }
+</script>
+
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(2, 1fr); }
+  .thumb { position: relative; display: block; width: 100%; padding: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); cursor: zoom-in; aspect-ratio: 4 / 3; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--ease); }
+  .thumb:hover img, .thumb:focus-visible img { transform: scale(1.05); }
+  .cap { position: absolute; inset-inline: 0; bottom: 0; padding: var(--s-6) var(--s-3) var(--s-3); color: #fff; font-size: 0.875rem; line-height: 1.6; text-align: start; background: linear-gradient(to top, rgb(14 27 44 / 0.85), transparent); }
+  @media (min-width: 40rem) { .grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+
+  /* پنجره‌ی بزرگ‌نمایی */
+  .lb { width: min(96vw, 64rem); max-height: 94vh; padding: var(--s-4); border: 0; border-radius: var(--radius-md); background: #0a1422; color: #fff; }
+  .lb::backdrop { background: rgb(5 10 18 / 0.85); }
+  .lb figure { margin: 0; display: grid; gap: var(--s-3); }
+  .lb img { width: 100%; max-height: 72vh; object-fit: contain; }
+  .lb figcaption { text-align: center; line-height: 1.8; min-height: 1.8em; }
+  .ctrl { display: flex; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-4); }
+  .ctrl button { flex: 1; padding: var(--s-3) var(--s-4); border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius-md); background: transparent; color: #fff; font: inherit; cursor: pointer; }
+  .ctrl button:hover, .ctrl button:focus-visible { background: var(--gold-on-ink); color: var(--ink); }
+</style>

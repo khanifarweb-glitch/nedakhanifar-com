@@ -9,13 +9,17 @@ export interface Content {
   meta: { title: string; description: string };
   ui: {
     skipLink: string; menu: string; navLabel: string; otherLangLabel: string; otherLangName: string; rights: string;
-    nav: Record<"about" | "achievements" | "expertise" | "cooperation" | "products" | "videos" | "contact", string>;
+    nav: Record<"about" | "achievements" | "gallery" | "expertise" | "cooperation" | "products" | "videos" | "contact", string>;
   };
   hero: { kicker: string; name: string; role: string; headline: string; contactLabel: string; cvLabel: string; cvUrl: string };
   about: { title: string; eyebrow: string; paragraphs: string[] };
   achievements: {
     title: string; eyebrow: string;
     items: { icon: string; title: string; text: string; link: string; linkLabel: string }[];
+  };
+  gallery: {
+    title: string; eyebrow: string; openLabel: string; closeLabel: string; prevLabel: string; nextLabel: string;
+    items: { image: string; caption?: string }[];
   };
   expertise: { title: string; eyebrow: string; items: string[] };
   cooperation: { title: string; eyebrow: string; intro: string; items: { title: string; text: string }[] };
@@ -38,6 +42,7 @@ function normalize(raw: unknown): Content {
   const c = structuredClone(raw) as Content;
   c.about.paragraphs ??= [];
   c.achievements.items ??= [];
+  c.gallery.items ??= [];
   c.expertise.items ??= [];
   c.cooperation.items ??= [];
   c.products.items ??= [];

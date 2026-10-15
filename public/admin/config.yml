@@ -63,6 +63,24 @@ collections:
                   - { name: text, label: "توضیح", widget: text }
                   - { name: link, label: "لینک مدرک (اختیاری)", widget: string, required: false }
                   - { name: linkLabel, label: "متن لینک", widget: string, required: false }
+          - name: gallery
+            label: "گالری عکس سمینارها و فعالیت‌ها (خالی = بخش نمایش داده نمی‌شود)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: openLabel, label: "متن دکمه بزرگ‌نمایی", widget: string }
+              - { name: closeLabel, label: "متن دکمه بستن", widget: string }
+              - { name: prevLabel, label: "متن دکمه قبلی", widget: string }
+              - { name: nextLabel, label: "متن دکمه بعدی", widget: string }
+              - name: items
+                label: "عکس‌ها"
+                widget: list
+                required: false
+                fields:
+                  - { name: image, label: "عکس (webp یا jpg، زیر ۳۰۰ کیلوبایت)", widget: image }
+                  - { name: caption, label: "توضیح کوتاه زیر عکس", widget: string, required: false }
           - name: expertise
             label: "تخصص‌ها"
             widget: object
@@ -171,6 +189,7 @@ collections:
                 fields:
                   - { name: about, label: "درباره من", widget: string }
                   - { name: achievements, label: "دستاوردها", widget: string }
+                  - { name: gallery, label: "گالری", widget: string }
                   - { name: expertise, label: "تخصص‌ها", widget: string }
                   - { name: cooperation, label: "زمینه‌های همکاری", widget: string }
                   - { name: products, label: "محصولات", widget: string }
@@ -226,6 +245,24 @@ collections:
                   - { name: text, label: "توضیح", widget: text }
                   - { name: link, label: "لینک مدرک (اختیاری)", widget: string, required: false }
                   - { name: linkLabel, label: "متن لینک", widget: string, required: false }
+          - name: gallery
+            label: "گالری عکس سمینارها و فعالیت‌ها (خالی = بخش نمایش داده نمی‌شود)"
+            widget: object
+            collapsed: true
+            fields:
+              - { name: title, label: "عنوان بخش", widget: string }
+              - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
+              - { name: openLabel, label: "متن دکمه بزرگ‌نمایی", widget: string }
+              - { name: closeLabel, label: "متن دکمه بستن", widget: string }
+              - { name: prevLabel, label: "متن دکمه قبلی", widget: string }
+              - { name: nextLabel, label: "متن دکمه بعدی", widget: string }
+              - name: items
+                label: "عکس‌ها"
+                widget: list
+                required: false
+                fields:
+                  - { name: image, label: "عکس (webp یا jpg، زیر ۳۰۰ کیلوبایت)", widget: image }
+                  - { name: caption, label: "توضیح کوتاه زیر عکس", widget: string, required: false }
           - name: expertise
             label: "تخصص‌ها"
             widget: object
@@ -334,6 +371,7 @@ collections:
                 fields:
                   - { name: about, label: "درباره من", widget: string }
                   - { name: achievements, label: "دستاوردها", widget: string }
+                  - { name: gallery, label: "گالری", widget: string }
                   - { name: expertise, label: "تخصص‌ها", widget: string }
                   - { name: cooperation, label: "زمینه‌های همکاری", widget: string }
                   - { name: products, label: "محصولات", widget: string }
