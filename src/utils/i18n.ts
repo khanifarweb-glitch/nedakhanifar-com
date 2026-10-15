@@ -1,14 +1,15 @@
 /** انتخاب زبان و خواندن محتوا. برای افزودن زبان جدید: یک JSON در src/data/content و یک صفحه در src/pages. */
 import fa from "../data/content/fa.json";
 import ar from "../data/content/ar.json";
+import en from "../data/content/en.json";
 import common from "../data/content/common.json";
 
-export type Lang = "fa" | "ar";
+export type Lang = "fa" | "ar" | "en";
 
 export interface Content {
   meta: { title: string; description: string };
   ui: {
-    skipLink: string; menu: string; navLabel: string; otherLangLabel: string; otherLangName: string; rights: string;
+    skipLink: string; menu: string; navLabel: string; langLabel: string; rights: string;
     nav: Record<"about" | "achievements" | "gallery" | "expertise" | "cooperation" | "products" | "videos" | "contact", string>;
   };
   hero: { kicker: string; name: string; role: string; headline: string; contactLabel: string; cvLabel: string; cvUrl: string };
@@ -49,11 +50,17 @@ function normalize(raw: unknown): Content {
   c.videos.items ??= [];
   return c;
 }
-const contents: Record<Lang, Content> = { fa: normalize(fa), ar: normalize(ar) };
+const contents: Record<Lang, Content> = { fa: normalize(fa), ar: normalize(ar), en: normalize(en) };
 export const getContent = (lang: Lang): Content => contents[lang];
 export const commonInfo: Common = { email: "", linkedin: "", phone: "", whatsapp: "", ...(common as Partial<Common>) };
 
-/** آدرس صفحه هر زبان (فارسی در ریشه، عربی زیر /ar/) */
-export const pathFor = (lang: Lang) => (lang === "fa" ? "/" : "/ar/");
-export const otherLang = (lang: Lang): Lang => (lang === "fa" ? "ar" : "fa");
-export const htmlLang: Record<Lang, string> = { fa: "fa-IR", ar: "ar" };
+/** فهرست زبان‌ها؛ فارسی زبان پیش‌فرض (ریشه) است. name = نام زبان به خود آن زبان (برای دکمه‌ی تغییر زبان) */
+export const langs: Lang[] = ["fa", "ar", "en"];
+export const langMeta: Record<Lang, { name: string; html: string; og: string; dir: "rtl" | "ltr"; path: string }> = {
+  fa: { name: "فارسی", html: "fa-IR", og: "fa_IR", dir: "rtl", path: "/" },
+  ar: { name: "العربية", html: "ar", og: "ar_AR", dir: "rtl", path: "/ar/" },
+  en: { name: "English", html: "en", og: "en_US", dir: "ltr", path: "/en/" },
+};
+export const pathFor = (lang: Lang) => langMeta[lang].path;
+export const otherLangs = (lang: Lang): Lang[] => langs.filter((l) => l !== lang);
+export const htmlLang: Record<Lang, string> = { fa: "fa-IR", ar: "ar", en: "en" };

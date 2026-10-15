@@ -1,7 +1,7 @@
 ---
 /**
  * Layout پایه: زبان، SEO، hreflang، Open Graph و داده ساختاریافته (Person).
- * هر صفحه‌ی زبانی (فارسی/عربی) از این استفاده می‌کند.
+ * هر صفحه‌ی زبانی (فارسی/عربی/انگلیسی) از این استفاده می‌کند.
  */
 import "@fontsource-variable/vazirmatn"; // فونت self-host (بدون Google Fonts)
 import "../styles/tokens.css";
@@ -9,7 +9,7 @@ import "../styles/base.css";
 import Header from "../components/common/Header.astro";
 import Footer from "../components/common/Footer.astro";
 import { site } from "../data/site";
-import { commonInfo, getContent, htmlLang, otherLang, pathFor, type Lang } from "../utils/i18n";
+import { commonInfo, getContent, htmlLang, langMeta, langs, pathFor, type Lang } from "../utils/i18n";
 
 interface Props { lang: Lang; noindex?: boolean }
 const { lang, noindex = false } = Astro.props;
@@ -35,7 +35,7 @@ const schema = {
 ---
 
 <!doctype html>
-<html lang={lang} dir="rtl">
+<html lang={lang} dir={langMeta[lang].dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,14 +49,13 @@ const schema = {
     <meta name="author" content={hero.name} />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     {!noindex && <link rel="canonical" href={canonical} />}
-    {!noindex && <link rel="alternate" hreflang="fa" href={abs("/")} />}
-    {!noindex && <link rel="alternate" hreflang="ar" href={abs("/ar/")} />}
+    {!noindex && langs.map((l) => <link rel="alternate" hreflang={l} href={abs(pathFor(l))} />)}
     {!noindex && <link rel="alternate" hreflang="x-default" href={abs("/")} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content={lang === "fa" ? "fa_IR" : "ar_AR"} />
-    <meta property="og:locale:alternate" content={lang === "fa" ? "ar_AR" : "fa_IR"} />
+    <meta property="og:locale" content={langMeta[lang].og} />
+    {langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={langMeta[l].og} />)}
     <meta property="og:title" content={c.meta.title} />
     <meta property="og:description" content={c.meta.description} />
     <meta property="og:url" content={canonical} />

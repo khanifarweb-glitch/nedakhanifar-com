@@ -1,11 +1,11 @@
 ---
 /** هدر: نام، منوی بخش‌ها (لینک‌های داخل صفحه)، تغییر زبان و منوی موبایل. */
-import { commonInfo, getContent, otherLang, pathFor, type Lang } from "../../utils/i18n";
+import { getContent, langMeta, otherLangs, pathFor, type Lang } from "../../utils/i18n";
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = getContent(lang);
-const other = otherLang(lang);
+const others = otherLangs(lang);
 
 // فقط بخش‌هایی که محتوا دارند در منو می‌آیند
 const sections = [
@@ -32,7 +32,11 @@ const sections = [
           <li><a href={`#${s.id}`}>{c.ui.nav[s.id]}</a></li>
         ))}
       </ul>
-      <a class="lang" href={pathFor(other)} hreflang={other} lang={other} title={c.ui.otherLangName}>{c.ui.otherLangLabel}</a>
+      <div class="langs" role="group" aria-label={c.ui.langLabel}>
+        {others.map((l) => (
+          <a class="lang" href={pathFor(l)} hreflang={l} lang={l} dir={langMeta[l].dir}>{langMeta[l].name}</a>
+        ))}
+      </div>
     </nav>
   </div>
 </header>
@@ -64,6 +68,7 @@ const sections = [
   .nav ul { display: flex; align-items: center; gap: var(--s-4); list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
   .nav a { text-decoration: none; color: var(--on-ink-muted); font-size: var(--fs-sm); font-weight: 600; padding: var(--s-2) 0; transition: color var(--ease); }
   .nav a:hover { color: #fff; }
+  .langs { display: flex; gap: var(--s-2); }
   .nav .lang { color: var(--gold-on-ink); border: 1px solid rgb(216 182 115 / 0.5); border-radius: var(--radius-sm); padding: var(--s-1) var(--s-3); }
   .nav .lang:hover { color: var(--ink); background: var(--gold-on-ink); }
 
@@ -73,6 +78,7 @@ const sections = [
     .header[data-js] .nav[data-open] { display: flex; }
     .nav ul { flex-direction: column; align-items: stretch; gap: 0; }
     .nav ul a { display: block; padding: var(--s-3) 0; font-size: var(--fs-base); }
+    .langs { flex-direction: column; }
     .nav .lang { text-align: center; }
     .header:not([data-js]) .bar { flex-wrap: wrap; padding-block: var(--s-3); }
   }
