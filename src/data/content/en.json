@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "Neda Khanifar | International Trade & Sourcing",
+    "description": "Neda Khanifar works in international trade and sourcing in UAE and Gulf markets: industrial cellulose products, import/export and lasting trade partnerships."
+  },
+  "hero": {
+    "kicker": "Wholesale supplier of industrial cellulose products",
+    "name": "Neda Khanifar",
+    "role": "International Trade | Sourcing | Import & Export",
+    "headline": "Building lasting trade partnerships with manufacturers, suppliers and distributors in regional and international markets.",
+    "contactLabel": "Contact for collaboration",
+    "cvLabel": "Download CV",
+    "cvUrl": ""
+  },
+  "about": {
+    "title": "About Me",
+    "eyebrow": "Executive and professional background",
+    "paragraphs": [
+      "I am Neda Khanifar, and I have built my professional experience in business development, international trade, market development and the building of commercial relationships. My work focuses on identifying business opportunities, understanding market needs, acquiring customers, negotiating, and following the different stages of commercial partnerships through.",
+      "Throughout my career I have worked in market research, identifying potential customers, direct marketing, product presentation and developing relationships with corporate clients. I also have experience negotiating with domestic and international customers, following up on commercial agreements, and coordinating between the various parties to move orders forward.",
+      "In trade and export, I have experience following operational processes from order registration and the preparation of commercial documents to transport coordination, customs follow-up and liaison with companies working in logistics. This experience has given me a practical view of how market development, sales and the fulfilment of commercial commitments relate to one another.",
+      "My approach to business rests on understanding the market, effective communication, professional negotiation, accountability and consistent follow-up. I believe the real value of a business opportunity becomes clear when it can be brought to a result through planning, effective collaboration and precise execution.",
+      "Today my focus is on developing lasting trade partnerships, identifying new opportunities in regional and international markets, and taking part in projects where I can apply my experience and abilities in business development, trade and operational coordination."
+    ]
+  },
+  "achievements": {
+    "title": "Achievements",
+    "eyebrow": "Highlights",
+    "items": [
+      {
+        "icon": "mic",
+        "title": "Organiser and speaker, B2B seminar",
+        "text": "Organised and spoke at a B2B trade seminar attended by more than 100 economic and business players; the Khuzestan Chamber of Commerce was a guest at the seminar.",
+        "link": "",
+        "linkLabel": ""
+      },
+      {
+        "icon": "award",
+        "title": "Selected among Khuzestan's distinguished young people",
+        "text": "In 2023, Neda Khanifar's name appeared in an IRNA report on the selection of the country's top young figures from Khuzestan province. She was also honoured, within the activities of Junior Chamber International (JCI), as one of the distinguished young people.",
+        "link": "https://www.irna.ir/xjMFn2",
+        "linkLabel": "View the IRNA report (in Persian)"
+      },
+      {
+        "icon": "users",
+        "title": "Best booth, Ahvaz Agricultural Exhibition",
+        "text": "Responsible for organising and managing the booth, presenting products and communicating directly with customers and economic players; at the end of the exhibition the booth won the title of best booth.",
+        "link": "",
+        "linkLabel": ""
+      },
+      {
+        "icon": "briefcase",
+        "title": "Operational experience in trade and export",
+        "text": "Order registration, preparation of commercial documents, customs follow-up, transport coordination and order follow-up.",
+        "link": "",
+        "linkLabel": ""
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Photos from seminars and activities",
+    "eyebrow": "",
+    "openLabel": "Enlarge image",
+    "closeLabel": "Close",
+    "prevLabel": "Previous",
+    "nextLabel": "Next",
+    "items": [
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۵۸-۳۴.jpg",
+        "caption": ""
+      },
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۴۲-۲۲.jpg",
+        "caption": ""
+      },
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۴۲-۲۳.jpg",
+        "caption": ""
+      },
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۵۸-۳۵.jpg",
+        "caption": ""
+      },
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۵۳-۵۸.jpg",
+        "caption": ""
+      },
+      {
+        "image": "/images/photo_۲۰۲۶-۱۰-۰۹_۱۴-۴۲-۱۹.jpg",
+        "caption": ""
+      }
+    ]
+  },
+  "expertise": {
+    "title": "Expertise",
+    "eyebrow": "Fields of work",
+    "items": [
+      "International trade",
+      "Sourcing",
+      "Import and export",
+      "Negotiation with suppliers",
+      "Logistics and cross-border transport",
+      "Market research and market development",
+      "Commercial documents and customs affairs",
+      "B2B business development",
+      "Using artificial intelligence in market research and decision-making"
+    ]
+  },
+  "cooperation": {
+    "title": "Areas of Collaboration",
+    "eyebrow": "Commercial collaboration",
+    "intro": "Interested in sourcing, import, export and building long-term relationships with manufacturers, suppliers and distributors in the markets of the Gulf countries.",
+    "items": [
+      {
+        "title": "Sourcing and negotiation",
+        "text": "Identifying suppliers, negotiating and following up on commercial agreements."
+      },
+      {
+        "title": "Import and export",
+        "text": "Following the process from order registration and documents through to customs."
+      },
+      {
+        "title": "Logistics",
+        "text": "Coordinating transport and liaising with companies working in logistics."
+      },
+      {
+        "title": "Market research",
+        "text": "Understanding market needs and identifying potential customers."
+      }
+    ]
+  },
+  "products": {
+    "title": "Products",
+    "eyebrow": "Sourcing industrial cellulose products",
+    "intro": "",
+    "items": []
+  },
+  "videos": {
+    "title": "Videos",
+    "eyebrow": "",
+    "playLabel": "Play video",
+    "items": []
+  },
+  "contact": {
+    "title": "Contact",
+    "eyebrow": "Collaboration and conversation",
+    "intro": "Message me about commercial collaboration, sourcing or market development.",
+    "labels": {
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "linkedin": "LinkedIn"
+    },
+    "form": {
+      "name": "Name",
+      "contact": "Email or phone number",
+      "message": "Message",
+      "submit": "Send message",
+      "sending": "Sending...",
+      "success": "Your message has been sent. You will receive a reply soon.",
+      "invalid": "Please enter your name, a valid way to reach you, and a complete message.",
+      "failed": "Sending failed. Please use the direct contact options.",
+      "network": "Could not connect to the server. Please try again."
+    }
+  },
+  "ui": {
+    "skipLink": "Skip to main content",
+    "menu": "Menu",
+    "navLabel": "Main menu",
+    "langLabel": "Language",
+    "rights": "All rights reserved.",
+    "nav": {
+      "about": "About",
+      "achievements": "Achievements",
+      "gallery": "Gallery",
+      "expertise": "Expertise",
+      "cooperation": "Collaboration",
+      "products": "Products",
+      "videos": "Videos",
+      "contact": "Contact"
+    }
+  }
+}

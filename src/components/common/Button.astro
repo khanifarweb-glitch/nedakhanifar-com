@@ -30,6 +30,8 @@ const Tag = href ? "a" : "button";
   .btn--lg { min-height: 3.5rem; padding: 0 var(--s-8); font-size: var(--fs-lg); }
   .btn :global(.btn__icon) { transition: transform var(--ease); }
   .btn:hover :global(.btn__icon) { transform: translateX(-4px); }
+  :global(html[dir="ltr"]) .btn :global(.btn__icon) { transform: scaleX(-1); }
+  :global(html[dir="ltr"]) .btn:hover :global(.btn__icon) { transform: scaleX(-1) translateX(-4px); }
 
   .btn--primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 28%, transparent); }
   .btn--primary:hover { background: var(--accent-hover); transform: translateY(-1px); }

@@ -186,7 +186,8 @@ async function handle({ request, env }: Ctx): Promise<Response> {
   const name = clean(data.name, 80);
   const contact = toLatinDigits(clean(data.contact, 120));
   const message = clean(data.message, 1500);
-  const lang = clean(data.lang, 4) === "ar" ? "عربی" : "فارسی";
+  const langCode = clean(data.lang, 4);
+  const lang = langCode === "ar" ? "عربی" : langCode === "en" ? "انگلیسی" : "فارسی";
 
   const isEmail = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(contact);
   const isPhone = /^\+?\d{7,15}$/.test(contact.replace(/[\s\-()]/g, ""));

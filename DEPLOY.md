@@ -34,7 +34,7 @@ Cloudflare ← پروژه ← Settings ← **Variables and Secrets** ← نوع 
 ## ۵) پنل ویرایش محتوا
 آدرس: `https://nedakhanifar.com/admin/` ← Sign in with Token.
 توکن: GitHub ← Settings (حساب کاربری) ← Developer settings ← Fine-grained tokens ← فقط ریپوی `nedakhanifar-com` ← **Contents: Read and write**.
-در پنل، «محتوای سایت» ← نسخه فارسی / عربی / اطلاعات تماس.
+در پنل، «محتوای سایت» ← نسخه فارسی / عربی / انگلیسی / اطلاعات تماس.
 
 ## ۶) چیزهایی که باید پر یا جایگزین شود
 - **عکس ندا:** فایل jpg/png/webp را در `src/assets/about/` بگذارید (هر نامی). بدون عکس، حرف اول نام نمایش داده می‌شود.
@@ -43,9 +43,10 @@ Cloudflare ← پروژه ← Settings ← **Variables and Secrets** ← نوع 
 - **رزومه PDF:** فایل را در `public/cv/` بگذارید و در پنل «آدرس فایل رزومه» را بنویسید (مثلاً `/cv/neda-fa.pdf`).
 - **محصولات و ویدیوها:** در پنل آیتم اضافه کنید؛ تا آیتمی نباشد آن بخش و لینک منویش نمایش داده نمی‌شود.
 - **ترجمه‌ی عربی:** قبل از انتشار یک عرب‌زبان بومی بازبینی کند (به‌خصوص املای نام «ندى خنيفر»).
+- **ترجمه‌ی انگلیسی:** قبل از انتشار یک انگلیسی‌زبان مسلط بازبینی کند (متن از روی نسخه‌ی فارسی ترجمه شده است).
 - **مدارک دستاوردها:** عکس غرفه، تقدیرنامه و ... را بعداً به بخش دستاوردها اضافه کنید.
 
 ## ۷) بعد از انتشار
 1. Google Search Console ← دامنه را تأیید کنید ← Sitemap: `https://nedakhanifar.com/sitemap-index.xml`
-2. آدرس‌های `/` و `/ar/` را در «URL Inspection» بررسی و Request indexing بزنید.
+2. آدرس‌های `/`، `/ar/` و `/en/` را در «URL Inspection» بررسی و Request indexing بزنید.
 3. در Cloudflare ← Security ← Settings، Bot Fight Mode را فقط در صورت لزوم فعال نگه دارید (می‌تواند ربات‌های گوگل را مختل کند).
