@@ -8,7 +8,7 @@ export default defineConfig({
   trailingSlash: "always",
   integrations: [
     sitemap({
-      i18n: { defaultLocale: "fa", locales: { fa: "fa-IR", ar: "ar", en: "en" } },
+      i18n: { defaultLocale: "en", locales: { en: "en", fa: "fa-IR", ar: "ar" } },
     }),
   ],
   prefetch: { prefetchAll: true, defaultStrategy: "hover" },
