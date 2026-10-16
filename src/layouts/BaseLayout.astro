@@ -19,18 +19,44 @@ const abs = (path: string) => new URL(path, site.url).href;
 const canonical = abs(pathFor(lang));
 const hero = c.hero;
 
-// داده ساختاریافته؛ فقط اطلاعات واقعی (فیلد خالی حذف می‌شود)
+// داده ساختاریافته (JSON-LD): وب‌سایت + صفحه‌ی پروفایل + شخص؛ فقط اطلاعات واقعی (فیلد خالی حذف می‌شود)
 const sameAs = [commonInfo.linkedin].filter(Boolean);
+const personId = `${site.url}/#person`;
+const websiteId = `${site.url}/#website`;
 const schema = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: hero.name,
-  jobTitle: hero.role.split("|")[0].trim(),
-  url: canonical,
-  description: c.meta.description,
-  inLanguage: htmlLang[lang],
-  ...(commonInfo.email ? { email: commonInfo.email } : {}),
-  ...(sameAs.length ? { sameAs } : {}),
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: site.url,
+      name: site.name,
+      inLanguage: langs.map((l) => htmlLang[l]),
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#profile`,
+      url: canonical,
+      name: c.meta.title,
+      description: c.meta.description,
+      inLanguage: htmlLang[lang],
+      isPartOf: { "@id": websiteId },
+      mainEntity: { "@id": personId },
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: getContent("en").hero.name, // نام لاتین به‌عنوان نام اصلی؛ نام فارسی/عربی در alternateName
+      alternateName: [getContent("fa").hero.name, getContent("ar").hero.name],
+      jobTitle: getContent("en").hero.role.split("|")[0].trim(),
+      url: site.url,
+      description: getContent("en").meta.description,
+      knowsAbout: getContent("en").expertise.items,
+      ...(commonInfo.email ? { email: commonInfo.email } : {}),
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+  ],
 };
 ---
 
@@ -67,6 +93,8 @@ const schema = {
     <meta name="twitter:title" content={c.meta.title} />
     <meta name="twitter:description" content={c.meta.description} />
     <meta name="twitter:image" content={abs(site.ogImage)} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>

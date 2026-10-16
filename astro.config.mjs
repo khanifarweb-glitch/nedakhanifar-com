@@ -8,6 +8,7 @@ export default defineConfig({
   trailingSlash: "always",
   integrations: [
     sitemap({
+      lastmod: new Date(), // تاریخ آخرین build؛ به موتور جستجو کمک می‌کند صفحه‌ی تازه را زودتر ببیند
       i18n: { defaultLocale: "en", locales: { en: "en", fa: "fa-IR", ar: "ar" } },
     }),
   ],

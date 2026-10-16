@@ -26,7 +26,7 @@ const dataJson = JSON.stringify(items.map((it) => ({ src: it.image, cap: it.capt
             data-index={i}
             aria-label={`${g.openLabel}${it.caption ? `: ${it.caption}` : ""}`}
           >
-            <img src={it.image} alt={it.caption ?? ""} loading="lazy" decoding="async" />
+            <img src={it.image} alt={it.caption || `${g.title} (${i + 1}/${items.length})`} loading="lazy" decoding="async" />
             {it.caption && <span class="cap">{it.caption}</span>}
           </button>
         </li>

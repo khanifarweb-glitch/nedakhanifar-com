@@ -32,7 +32,7 @@ const initial = h.name.trim().charAt(0);
 
     <div class="portrait" aria-hidden={ownerPhoto ? undefined : "true"}>
       {ownerPhoto ? (
-        <Image src={ownerPhoto} alt={h.name} width={720} height={900} loading="eager" fetchpriority="high" class="photo" />
+        <Image src={ownerPhoto} alt={`${h.name} — ${h.role.split("|")[0].trim()}`} width={720} height={900} loading="eager" fetchpriority="high" class="photo" />
       ) : (
         <div class="photo photo--fallback">{initial}</div>
       )}
