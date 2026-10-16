@@ -16,6 +16,16 @@ const links = [
   commonInfo.email && { icon: "mail", label: t.labels.email, value: commonInfo.email, href: `mailto:${commonInfo.email}`, ltr: true, ext: false },
   commonInfo.linkedin && { icon: "linkedin", label: t.labels.linkedin, value: "linkedin.com/in/nedakhanifar", href: commonInfo.linkedin, ltr: true, ext: true },
 ].filter(Boolean) as { icon: "chat" | "phone" | "mail" | "linkedin"; label: string; value: string; href: string; ltr: boolean; ext: boolean }[];
+
+// لینک‌های مفید (اتاق‌ها و سامانه‌ها): فقط آدرس https معتبر پذیرفته می‌شود
+const partners = t.partners.flatMap((p) => {
+  try {
+    const u = new URL(p.url);
+    return u.protocol === "https:" ? [{ title: p.title, href: u.href, host: u.hostname }] : [];
+  } catch {
+    return [];
+  }
+});
 ---
 
 <Section id="contact" title={t.title} eyebrow={t.eyebrow} intro={t.intro} tone="dark">
@@ -26,6 +36,15 @@ const links = [
           <a href={l.href} target={l.ext ? "_blank" : undefined} rel={l.ext ? "noopener noreferrer" : undefined}>
             <span class="ico"><Icon name={l.icon} size={20} /></span>
             <span class="txt"><small>{l.label}</small><b class:list={{ ltr: l.ltr }}>{l.value}</b></span>
+          </a>
+        </li>
+      ))}
+      {partners.map((p) => (
+        <li class="partner">
+          <a href={p.href} target="_blank" rel="noopener noreferrer">
+            <span class="ico"><Icon name="globe" size={20} /></span>
+            <span class="txt"><small>{p.title}</small><b class="ltr">{p.host}</b></span>
+            <span class="arrow" aria-hidden="true">↗</span>
           </a>
         </li>
       ))}
@@ -41,6 +60,9 @@ const links = [
   a:hover { border-color: var(--gold-on-ink); background: rgb(255 255 255 / 0.1); }
   .ico { flex: none; display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--gold-on-ink); color: var(--ink); }
   .txt { display: grid; min-width: 0; line-height: 1.5; }
+  .partner a { border-style: dashed; border-color: rgb(216 182 115 / 0.45); }
+  .partner .ico { background: transparent; color: var(--gold-on-ink); border: 1px solid rgb(216 182 115 / 0.6); }
+  .arrow { margin-inline-start: auto; color: var(--gold-on-ink); font-size: 1.1rem; }
   small { color: var(--on-ink-muted); }
   b { font-weight: 700; overflow-wrap: anywhere; }
   @media (min-width: 52rem) { .grid { grid-template-columns: 1fr 1.2fr; gap: var(--s-12); } }

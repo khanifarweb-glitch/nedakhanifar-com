@@ -7,6 +7,8 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = getContent(lang);
 const year = new Date().getFullYear();
+// لینک‌های مفید کنار لینکدین (فقط https معتبر)
+const partners = c.contact.partners.filter((p) => /^https:\/\//.test(p.url));
 ---
 
 <footer class="footer">
@@ -18,12 +20,20 @@ const year = new Date().getFullYear();
         <span>{c.contact.labels.linkedin}</span>
       </a>
     )}
+    {partners.map((p) => (
+      <a href={p.url} rel="noopener noreferrer" target="_blank">
+        <Icon name="globe" size={20} />
+        <span>{p.title}</span>
+      </a>
+    ))}
   </div>
 </footer>
 
 <style>
   .footer { background: var(--ink); color: var(--on-ink-muted); padding-block: var(--s-8); border-top: 1px solid rgb(255 255 255 / 0.08); font-size: var(--fs-sm); }
   .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-4); }
+  .row p { flex: 1 1 100%; }
+  @media (min-width: 52rem) { .row p { flex: 1 1 auto; } }
   a { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--on-ink); text-decoration: none; }
   a:hover { color: var(--gold-on-ink); }
 </style>

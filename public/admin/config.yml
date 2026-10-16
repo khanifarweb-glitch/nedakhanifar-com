@@ -148,6 +148,13 @@ collections:
               - { name: title, label: "عنوان بخش", widget: string }
               - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
               - { name: intro, label: "مقدمه", widget: text }
+              - name: partners
+                label: "لینک‌های مفید کنار لینکدین (اتاق‌ها و سامانه‌ها)"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "عنوان لینک", widget: string }
+                  - { name: url, label: "آدرس کامل (با https://)", widget: string }
               - name: labels
                 label: "برچسب راه‌های ارتباط"
                 widget: object
@@ -330,6 +337,13 @@ collections:
               - { name: title, label: "عنوان بخش", widget: string }
               - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
               - { name: intro, label: "مقدمه", widget: text }
+              - name: partners
+                label: "لینک‌های مفید کنار لینکدین (اتاق‌ها و سامانه‌ها)"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "عنوان لینک", widget: string }
+                  - { name: url, label: "آدرس کامل (با https://)", widget: string }
               - name: labels
                 label: "برچسب راه‌های ارتباط"
                 widget: object
@@ -512,6 +526,13 @@ collections:
               - { name: title, label: "عنوان بخش", widget: string }
               - { name: eyebrow, label: "برچسب کوچک", widget: string, required: false }
               - { name: intro, label: "مقدمه", widget: text }
+              - name: partners
+                label: "لینک‌های مفید کنار لینکدین (اتاق‌ها و سامانه‌ها)"
+                widget: list
+                required: false
+                fields:
+                  - { name: title, label: "عنوان لینک", widget: string }
+                  - { name: url, label: "آدرس کامل (با https://)", widget: string }
               - name: labels
                 label: "برچسب راه‌های ارتباط"
                 widget: object

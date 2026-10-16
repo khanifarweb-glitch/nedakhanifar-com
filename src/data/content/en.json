@@ -145,6 +145,16 @@
     "title": "Contact",
     "eyebrow": "Cooperation and conversation",
     "intro": "For commercial cooperation, sourcing or market development, send a message.",
+    "partners": [
+      {
+        "title": "Tehran Chamber of Commerce | Services Portal",
+        "url": "https://service.tccim.ir/"
+      },
+      {
+        "title": "Ahvaz Chamber of Commerce",
+        "url": "https://ahvazccim.com/"
+      }
+    ],
     "labels": {
       "phone": "Phone",
       "whatsapp": "WhatsApp",

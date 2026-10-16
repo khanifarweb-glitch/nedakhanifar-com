@@ -31,6 +31,7 @@ export interface Content {
   };
   contact: {
     title: string; eyebrow: string; intro: string;
+    partners: { title: string; url: string }[];
     labels: { phone: string; whatsapp: string; email: string; linkedin: string };
     form: { name: string; contact: string; message: string; submit: string; sending: string; success: string; invalid: string; failed: string; network: string };
   };
@@ -48,6 +49,7 @@ function normalize(raw: unknown): Content {
   c.cooperation.items ??= [];
   c.products.items ??= [];
   c.videos.items ??= [];
+  c.contact.partners ??= [];
   return c;
 }
 const contents: Record<Lang, Content> = { fa: normalize(fa), ar: normalize(ar), en: normalize(en) };
@@ -55,7 +57,7 @@ export const getContent = (lang: Lang): Content => contents[lang];
 export const commonInfo: Common = { email: "", linkedin: "", phone: "", whatsapp: "", ...(common as Partial<Common>) };
 
 /** زبان‌های سایت (ترتیب = ترتیب نمایش در سوئیچ زبان) */
-export const langs: Lang[] = ["fa", "ar", "en"];
+export const langs: Lang[] = ["en", "fa", "ar"];
 
 /** مشخصات هر زبان: نام بومی (برای سوئیچ)، جهت متن، locale و og:locale */
 export const langMeta: Record<Lang, { label: string; name: string; dir: "rtl" | "ltr"; locale: string; og: string }> = {
@@ -64,8 +66,9 @@ export const langMeta: Record<Lang, { label: string; name: string; dir: "rtl" | 
   en: { label: "English", name: "English version", dir: "ltr", locale: "en", og: "en_US" },
 };
 
-/** آدرس صفحه هر زبان (فارسی در ریشه، بقیه زیر /ar/ و /en/) */
-export const pathFor = (lang: Lang) => (lang === "fa" ? "/" : `/${lang}/`);
+/** آدرس صفحه هر زبان (زبان پیش‌فرض = انگلیسی در ریشه، بقیه زیر /fa/ و /ar/) */
+export const defaultLang: Lang = "en";
+export const pathFor = (lang: Lang) => (lang === defaultLang ? "/" : `/${lang}/`);
 /** بقیه‌ی زبان‌ها (برای سوئیچ زبان) */
 export const otherLangs = (lang: Lang): Lang[] => langs.filter((l) => l !== lang);
 export const htmlLang: Record<Lang, string> = { fa: "fa-IR", ar: "ar", en: "en" };
