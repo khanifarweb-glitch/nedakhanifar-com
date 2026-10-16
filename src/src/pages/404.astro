@@ -1,0 +1,31 @@
+---
+/** صفحه‌ی ۴۰۴ سه‌زبانه (noindex) */
+import "@fontsource-variable/vazirmatn";
+import "../styles/tokens.css";
+import "../styles/base.css";
+---
+
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>404</title>
+  </head>
+  <body>
+    <main class="nf">
+      <h1>صفحه پیدا نشد</h1>
+      <p>الصفحة غير موجودة</p>
+      <p dir="ltr">Page not found</p>
+      <p class="links"><a href="/">English</a> · <a href="/fa/">فارسی</a> · <a href="/ar/">العربية</a></p>
+    </main>
+  </body>
+</html>
+
+<style>
+  .nf { min-height: 100vh; display: grid; place-content: center; gap: var(--s-4); text-align: center; padding: var(--s-6); }
+  p { color: var(--muted); }
+  a { color: var(--accent); font-weight: 700; }
+</style>
